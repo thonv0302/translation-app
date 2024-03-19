@@ -1,0 +1,27 @@
+<template>
+  <div class="grid grid-cols-1 md:grid-cols-12 w-full h-screen">
+    <div
+      class="col-span-1 md:col-span-4 p-2 md:p-4 lg:p-8 xl:p-16 md:flex md:items-center"
+    >
+      <div class="w-full">
+        <h2
+          class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
+        >
+          Sign {{ route.name === 'auth-login' ? 'in' : 'up' }} to your account
+        </h2>
+
+        <slot />
+      </div>
+    </div>
+    <div class="hidden md:block md:col-span-8">
+      <!-- Right part content goes here -->
+      <!-- This part is hidden on mobile and takes 8/12 width on desktop -->
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+const route = useRoute();
+</script>
+
+<style scoped></style>
