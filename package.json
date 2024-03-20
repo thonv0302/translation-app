@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/workbox": "^3.0.0-beta.16",
     "@pinia/nuxt": "^0.5.1",
     "@prisma/client": "^5.11.0",
     "@vee-validate/nuxt": "^4.12.6",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",
+    "@vite-pwa/nuxt": "^0.6.0",
     "nuxt-auth-utils": "^0.0.20"
   }
 }
