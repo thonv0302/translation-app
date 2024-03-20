@@ -15,15 +15,22 @@
     "@vee-validate/nuxt": "^4.12.6",
     "@vee-validate/rules": "^4.12.6",
     "@vueuse/nuxt": "^10.9.0",
+    "bcrypt": "^5.1.1",
+    "h3-zod": "^0.5.3",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "nuxt": "^3.11.0",
     "pinia": "^2.1.7",
     "prisma": "^5.11.0",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/lodash": "^4.17.0",
     "nuxt-auth-utils": "^0.0.20"
   }
 }

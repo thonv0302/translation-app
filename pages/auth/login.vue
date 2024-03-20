@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const authStore = useAuthStore();
+
 definePageMeta({
   layout: 'auth',
 });
@@ -8,7 +10,9 @@ const loginFormData = reactive({
   password: '123456',
 });
 
-const onSubmit = () => {};
+const onSubmit = async () => {
+  await authStore.signIn(loginFormData);
+};
 </script>
 
 <template>
@@ -26,7 +30,7 @@ const onSubmit = () => {};
           type="email"
           :rules="{
             required: true,
-            email: true,
+            // email: true,
           }"
           v-model="loginFormData.email"
           :class="[
@@ -83,11 +87,11 @@ const onSubmit = () => {};
     </div>
   </VeeForm>
   <p class="mt-6 text-center text-sm text-gray-500">
-    Not a member?<NuxtLink
+    Already a member?<NuxtLink
       class="text-blue-600 underline hover:text-blue-800"
       to="/auth/register"
     >
-      Sign up now
+      Sign in now
     </NuxtLink>
   </p>
 </template>
