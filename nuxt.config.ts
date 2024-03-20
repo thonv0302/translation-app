@@ -3,11 +3,10 @@
 import * as process from 'process';
 const sw = process.env.SW === 'true';
 // nuxt.config.ts
-import { defineNuxtConfig } from 'nuxt/config'
+import { defineNuxtConfig } from 'nuxt/config';
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
-    'nuxt-auth-utils',
     '@nuxtjs/tailwindcss',
     '@vee-validate/nuxt',
     '@pinia/nuxt',
@@ -71,5 +70,5 @@ export default defineNuxtConfig({
       ErrorMessage: 'VeeErrorMessage',
     },
   },
-  plugins: ['~/plugins/vee-validate/index.ts'],
+  // plugins: ['~/plugins/vee-validate/index.ts'],
 });
