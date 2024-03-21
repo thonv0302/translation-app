@@ -40,7 +40,8 @@ export default defineNuxtConfig({
           purpose: 'any maskable',
         },
       ],
-    },workbox: {
+    },
+    workbox: {
       globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
     },
     injectManifest: {

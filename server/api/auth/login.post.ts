@@ -18,6 +18,10 @@ export default defineEventHandler(async (event) => {
       password: z.string(),
     });
 
+    // const user1 = await db.user.findMany();
+
+    console.log('user1: ', body);
+
     const user = await db.user.findFirstOrThrow({
       where: {
         email: body.email,
