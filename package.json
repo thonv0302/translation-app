@@ -19,6 +19,7 @@
     "bcrypt": "^5.1.1",
     "h3-zod": "^0.5.3",
     "jsonwebtoken": "^9.0.2",
+    "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "nuxt": "^3.11.0",
     "pinia": "^2.1.7",
@@ -32,7 +33,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/lodash": "^4.17.0",
-    "nuxt-auth-utils": "^0.0.20",
-    "@vite-pwa/nuxt": "^0.6.0"
+    "@vite-pwa/nuxt": "^0.6.0",
+    "nuxt-auth-utils": "^0.0.20"
   }
 }
