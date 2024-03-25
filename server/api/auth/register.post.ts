@@ -11,8 +11,6 @@ export default defineEventHandler(async (event) => {
     } = useRuntimeConfig();
     const { db } = event.context;
 
-    console.log('db: ', db);
-
     const body = await zh.useValidatedBody(event, {
       name: z.string(),
       email: z.string().email(),
@@ -35,10 +33,14 @@ export default defineEventHandler(async (event) => {
     });
     return user;
   } catch (error) {
-    console.log('error: ', error);
-    return {
-      data: null,
-      error: (error as Error).message,
-    };
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Register failed',
+    });
+    // console.log('error: ', error);
+    // return {
+    //   data: null,
+    //   error: (error as Error).message,
+    // };
   }
 });

@@ -1,23 +1,26 @@
 <script lang="ts" setup>
-const router = useRouter();
-
-const authStore = useAuthStore();
-
 definePageMeta({
   layout: 'auth',
 });
 
-const loginFormData = reactive({
-  email: 'nguyenvietthoit@gmail.com',
+const router = useRouter();
+const route = useRoute();
+const authStore = useAuthStore();
+
+const resetPassword = reactive({
   password: '123456',
+  passwordConfirm: '123456',
 });
 
 const onSubmit = async () => {
   try {
-    await authStore.signIn(loginFormData);
-    router.push({
-      name: 'index',
+    await authStore.resetPassword({
+      ...resetPassword,
+      resetToken: route.params.resetToken,
     });
+    // router.push({
+    //   name: 'index',
+    // });
   } catch (error) {}
 };
 </script>
@@ -26,52 +29,59 @@ const onSubmit = async () => {
   <VeeForm class="space-y-6" v-slot="{ errors, meta }" @submit="onSubmit">
     <div>
       <label
-        for="email"
+        for="new-password"
         class="block text-sm font-medium leading-6 text-gray-900"
-        >Email</label
+        >New Password</label
       >
       <div class="mt-2">
         <VeeField
-          id="email"
-          name="email"
-          type="email"
+          id="new-password"
+          name="new-password"
+          type="password"
           :rules="{
             required: true,
-            // email: true,
+            minLength: 6,
           }"
-          v-model="loginFormData.email"
+          v-model="resetPassword.password"
           :class="[
             'block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:outline-none',
             {
               'ring-red-500 border-red-500 focus:ring-red-500 focus:border-red-500':
-                errors.email,
+                errors['new-password'],
             },
           ]"
         />
-        <VeeErrorMessage name="email" class="mt-2 text-sm text-red-600" />
+        <VeeErrorMessage
+          name="new-password"
+          class="mt-2 text-sm text-red-600"
+        />
       </div>
     </div>
     <div>
       <label
-        for="password"
+        for="confirm-new-password"
         class="block text-sm font-medium leading-6 text-gray-900"
-        >Password</label
+        >Confirm New Password</label
       >
       <div class="mt-2">
         <VeeField
-          id="password"
-          name="password"
+          id="confirm-new-password"
+          name="confirm-new-password"
           type="password"
-          v-model="loginFormData.password"
+          v-model="resetPassword.passwordConfirm"
+          rules="required|minLength:6|confirmed:@new-password"
           :class="[
             'block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:outline-none',
             {
               'ring-red-500 border-red-500 focus:ring-red-500 focus:border-red-500':
-                errors.password,
+                errors['confirm-new-password'],
             },
           ]"
         />
-        <VeeErrorMessage name="password" class="mt-2 text-sm text-red-600" />
+        <VeeErrorMessage
+          name="confirm-new-password"
+          class="mt-2 text-sm text-red-600"
+        />
       </div>
     </div>
     <div>
@@ -89,24 +99,8 @@ const onSubmit = async () => {
           },
         ]"
       >
-        Sign in
+        Reset
       </button>
     </div>
   </VeeForm>
-  <p class="mt-6 text-center text-sm text-gray-500">
-    Not a member?<NuxtLink
-      class="text-blue-600 underline hover:text-blue-800"
-      to="/auth/register"
-    >
-      Sign up now
-    </NuxtLink>
-  </p>
-  <p class="mt-2 text-center text-sm text-gray-500">
-    <NuxtLink
-      class="text-blue-600 underline hover:text-blue-800"
-      to="/auth/forgot-password"
-    >
-      Forgot password
-    </NuxtLink>
-  </p>
 </template>

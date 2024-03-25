@@ -7,17 +7,14 @@ definePageMeta({
   layout: 'auth',
 });
 
-const loginFormData = reactive({
-  email: 'nguyenvietthoit@gmail.com',
-  password: '123456',
-});
+const email = ref('thoxyz1996@gmail.com');
 
 const onSubmit = async () => {
   try {
-    await authStore.signIn(loginFormData);
-    router.push({
-      name: 'index',
-    });
+    await authStore.forgotPassword(email.value);
+    // router.push({
+    //   name: 'index',
+    // });
   } catch (error) {}
 };
 </script>
@@ -37,9 +34,9 @@ const onSubmit = async () => {
           type="email"
           :rules="{
             required: true,
-            // email: true,
+            email: true,
           }"
-          v-model="loginFormData.email"
+          v-model="email"
           :class="[
             'block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:outline-none',
             {
@@ -49,29 +46,6 @@ const onSubmit = async () => {
           ]"
         />
         <VeeErrorMessage name="email" class="mt-2 text-sm text-red-600" />
-      </div>
-    </div>
-    <div>
-      <label
-        for="password"
-        class="block text-sm font-medium leading-6 text-gray-900"
-        >Password</label
-      >
-      <div class="mt-2">
-        <VeeField
-          id="password"
-          name="password"
-          type="password"
-          v-model="loginFormData.password"
-          :class="[
-            'block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:outline-none',
-            {
-              'ring-red-500 border-red-500 focus:ring-red-500 focus:border-red-500':
-                errors.password,
-            },
-          ]"
-        />
-        <VeeErrorMessage name="password" class="mt-2 text-sm text-red-600" />
       </div>
     </div>
     <div>
@@ -89,24 +63,16 @@ const onSubmit = async () => {
           },
         ]"
       >
-        Sign in
+        Send email
       </button>
     </div>
   </VeeForm>
   <p class="mt-6 text-center text-sm text-gray-500">
-    Not a member?<NuxtLink
-      class="text-blue-600 underline hover:text-blue-800"
-      to="/auth/register"
-    >
-      Sign up now
-    </NuxtLink>
-  </p>
-  <p class="mt-2 text-center text-sm text-gray-500">
     <NuxtLink
       class="text-blue-600 underline hover:text-blue-800"
-      to="/auth/forgot-password"
+      to="/auth/login"
     >
-      Forgot password
+      Sign in
     </NuxtLink>
   </p>
 </template>

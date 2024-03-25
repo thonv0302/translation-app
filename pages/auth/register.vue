@@ -1,13 +1,11 @@
 <script lang="ts" setup>
+const router = useRouter();
+
 definePageMeta({
   layout: 'auth',
 });
 
 const authStore = useAuthStore();
-
-definePageMeta({
-  layout: 'auth',
-});
 
 const loginFormData = reactive({
   name: 'thonv',
@@ -17,7 +15,12 @@ const loginFormData = reactive({
 });
 
 const onSubmit = async () => {
-  await authStore.signUp(loginFormData);
+  try {
+    await authStore.signUp(loginFormData);
+    router.push({
+      name: 'auth-login',
+    });
+  } catch (error) {}
 };
 </script>
 
@@ -141,12 +144,13 @@ const onSubmit = async () => {
       </button>
     </div>
   </VeeForm>
+
   <p class="mt-6 text-center text-sm text-gray-500">
-    Not a member?<NuxtLink
+    Already a member?<NuxtLink
       class="text-blue-600 underline hover:text-blue-800"
       to="/auth/login"
     >
-      Sign up now
+      Sign in now
     </NuxtLink>
   </p>
 </template>

@@ -1,8 +1,8 @@
 import { zh, z } from 'h3-zod';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import _ from 'lodash';
 import { randomUUID } from 'crypto';
+import _ from 'lodash';
+import { format } from 'date-fns';
+import jwt from 'jsonwebtoken';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -13,35 +13,37 @@ export default defineEventHandler(async (event) => {
         jwtRefreshTokenExpirySeconds,
       },
     } = useRuntimeConfig();
+
     const { db } = event.context;
-
     const uuid = randomUUID();
-
     const body = await zh.useValidatedBody(event, {
-      email: z.string().email(),
-      password: z.string(),
+      refreshToken: z.string(),
     });
 
-    const user = await db.user.findFirstOrThrow({
-      where: {
-        email: body.email,
-      },
-    });
-
-    const isMatch = await bcrypt.compare(body.password, user.password);
-
-    if (!isMatch) {
-      throw new Error('Invalid account details');
-    }
+    const verified: any = jwt.verify(body.refreshToken, jwtTokenSecret);
 
     const data: any = await useStorage('cache').getItem(
-      `nitro:functions:refreshToken:user-${user.id}.json`
+      `nitro:functions:refreshToken:user-${verified.userId}.json`
     );
 
     if (!data) {
-      await cachedRefreshToken(`user-${user.id}`, uuid);
+      await cachedRefreshToken(`user-${verified.userId}`, uuid);
     }
 
+    if (verified.refreshTokenId !== data.value) {
+      throw createError({
+        statusCode: 403,
+        statusMessage: 'Refresh token invalid',
+      });
+    }
+
+    const user = await db.user.findFirstOrThrow({
+      where: {
+        id: verified.userId,
+      },
+    });
+
+    await cachedRefreshToken(`user-${user.id}`, uuid);
     const userExcludePassword = _.omit(user, ['password']);
 
     const [accessToken, refreshToken] = await Promise.all([
@@ -59,13 +61,9 @@ export default defineEventHandler(async (event) => {
       user: userExcludePassword,
     };
   } catch (error) {
-    // return {
-    //   data: null,
-    //   error: (error as Error).message,
-    // };
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Login failed',
-    });
+    return {
+      data: null,
+      error: (error as Error).message,
+    };
   }
 });
