@@ -1,6 +1,6 @@
 import { defineRule } from 'vee-validate';
 export default defineNuxtPlugin({
-  name: 'my-plugin',
+  name: 'vee-validate',
   parallel: true,
   async setup(nuxtApp) {
     defineRule('required', (value: string) => {

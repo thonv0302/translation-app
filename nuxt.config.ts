@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { env } from 'node:process';
-// @ts-ignore
-import * as process from 'process';
-const sw = process.env.SW === 'true';
+// // @ts-ignore
+// import * as process from 'process';
+// const sw = process.env.SW === 'true';
 // nuxt.config.ts
 import { defineNuxtConfig } from 'nuxt/config';
 export default defineNuxtConfig({
@@ -11,7 +11,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@vee-validate/nuxt',
     '@pinia/nuxt',
-    '@vite-pwa/nuxt',
+    'nuxt-icon',
+    // '@vite-pwa/nuxt',
   ],
   // pwa: {
   //   strategies: sw ? 'injectManifest' : 'generateSW',
@@ -72,7 +73,11 @@ export default defineNuxtConfig({
       ErrorMessage: 'VeeErrorMessage',
     },
   },
-  plugins: ['~/plugins/vee-validate/index.ts'],
+  plugins: [
+    '~/plugins/vee-validate/index.ts',
+    '~/plugins/google-oauth2.client.ts',
+    '~/plugins/facebook-oauth.client.ts',
+  ],
   runtimeConfig: {
     auth: {
       jwtTokenSecret: env.JWT_TOKEN_SECRET,
@@ -82,10 +87,14 @@ export default defineNuxtConfig({
       passwordMail: env.PASSWORD_MAIL,
       googleClientId: env.GOOGLE_CLIENT_ID,
       googleClientSecret: env.GOOGLE_CLIENT_SECRET,
+      facebookAppId: env.FACEBOOK_APP_ID,
+      facebookAppSecret: env.FACEBOOK_APP_SECRET,
     },
     public: {
+      googleClientId1: env.GOOGLE_CLIENT_ID,
+      facebookApuId: env.FACEBOOK_APP_ID,
       auth: {
-        authCookieName: 'nuxtess_token',
+        authCookieName: env.GOOGLE_CLIENT_ID,
       },
     },
   },

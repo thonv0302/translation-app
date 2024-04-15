@@ -2,18 +2,18 @@ import { useLocalStorage } from '@vueuse/core';
 import { skipHydrate } from 'pinia';
 
 export const useAuthStore = defineStore('authStore', () => {
-  const token = useLocalStorage<any>('token', {});
+  const authToken = useLocalStorage<any>('token', {});
 
   // other options...
   const signIn = async (payload: any) => {
-    token.value = await $fetch('/api/auth/login', {
+    authToken.value = await $fetch('/api/auth/login', {
       method: 'POST',
       body: {
         ...payload,
       },
     });
 
-    return token;
+    return authToken;
   };
 
   const signUp = async (payload: any) => {
@@ -21,6 +21,24 @@ export const useAuthStore = defineStore('authStore', () => {
       method: 'POST',
       body: {
         ...payload,
+      },
+    });
+  };
+
+  const signInWithGoogle = async (token: any) => {
+    authToken.value = await $fetch('/api/auth/google', {
+      method: 'POST',
+      body: {
+        token,
+      },
+    });
+  };
+
+  const signInWithFacebook = async (accessToken: any) => {
+    authToken.value = await $fetch('/api/auth/faceobook', {
+      method: 'POST',
+      body: {
+        accessToken,
       },
     });
   };
@@ -46,8 +64,10 @@ export const useAuthStore = defineStore('authStore', () => {
   return {
     signIn,
     signUp,
-    token: skipHydrate(token),
+    token: skipHydrate(authToken),
     resetPassword,
     forgotPassword,
+    signInWithGoogle,
+    signInWithFacebook,
   };
 });

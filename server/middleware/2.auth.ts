@@ -14,41 +14,42 @@ export default defineEventHandler(async (event) => {
     getRequestURL(event).pathname
   );
 
-  if (
-    getRequestURL(event).pathname.startsWith('/api/auth') ||
-    getRequestURL(event).pathname.startsWith('/auth/login') ||
-    getRequestURL(event).pathname.startsWith('/auth/register') ||
-    getRequestURL(event).pathname.startsWith('/auth/reset-password') ||
-    getRequestURL(event).pathname.startsWith('/auth/forgot-password')
-  ) {
-    return;
-  }
+  // if (
+  //   getRequestURL(event).pathname.startsWith('/api/auth') ||
+  //   getRequestURL(event).pathname.startsWith('/auth/login') ||
+  //   getRequestURL(event).pathname.startsWith('/auth/register') ||
+  //   getRequestURL(event).pathname.startsWith('/auth/reset-password') ||
+  //   getRequestURL(event).pathname.startsWith('/auth/forgot-password')
+  //   getRequestURL(event).pathname.startsWith('/auth')
+  // ) {
+  //   return;
+  // }
 
-  const { db } = event.context;
+  // const { db } = event.context;
 
-  const [_, accessToken] = event.req.headers['authorization']?.split(' ') || [];
-  if (!accessToken) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Unauthorized',
-    });
-  }
+  // const [_, accessToken] = event.req.headers['authorization']?.split(' ') || [];
+  // if (!accessToken) {
+  //   throw createError({
+  //     statusCode: 401,
+  //     statusMessage: 'Unauthorized',
+  //   });
+  // }
 
-  try {
-    const verified: any = jwt.verify(accessToken, jwtTokenSecret);
-    const user = await db.user.findFirstOrThrow({
-      where: {
-        id: verified.id,
-      },
-    });
+  // try {
+  //   const verified: any = jwt.verify(accessToken, jwtTokenSecret);
+  //   const user = await db.user.findFirstOrThrow({
+  //     where: {
+  //       id: verified.id,
+  //     },
+  //   });
 
-    event.context.user = user;
-  } catch (error: any) {
-    if (error.message === 'jwt expired') {
-      throw createError({
-        statusCode: 401,
-        statusMessage: 'Unauthorized',
-      });
-    }
-  }
+  //   event.context.user = user;
+  // } catch (error: any) {
+  //   if (error.message === 'jwt expired') {
+  //     throw createError({
+  //       statusCode: 401,
+  //       statusMessage: 'Unauthorized',
+  //     });
+  //   }
+  // }
 });

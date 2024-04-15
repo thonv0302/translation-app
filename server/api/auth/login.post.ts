@@ -42,6 +42,8 @@ export default defineEventHandler(async (event) => {
       await cachedRefreshToken(`user-${user.id}`, uuid);
     }
 
+    console.log('user: ', user);
+
     const userExcludePassword = _.omit(user, ['password']);
 
     const [accessToken, refreshToken] = await Promise.all([

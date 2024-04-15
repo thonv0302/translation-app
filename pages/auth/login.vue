@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const { $cb } = useNuxtApp();
 const router = useRouter();
 
 const authStore = useAuthStore();
@@ -20,6 +21,8 @@ const onSubmit = async () => {
     });
   } catch (error) {}
 };
+
+onMounted(() => {});
 </script>
 
 <template>
@@ -93,6 +96,10 @@ const onSubmit = async () => {
       </button>
     </div>
   </VeeForm>
+  <div class="flex gap-x-2 mt-3">
+    <SocialGoogleLoginButton></SocialGoogleLoginButton>
+    <SocialFacebookLoginButton></SocialFacebookLoginButton>
+  </div>
   <p class="mt-6 text-center text-sm text-gray-500">
     Not a member?<NuxtLink
       class="text-blue-600 underline hover:text-blue-800"

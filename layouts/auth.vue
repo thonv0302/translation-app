@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute();
+const router = useRouter();
 </script>
 
 <template>
@@ -8,24 +9,29 @@ const route = useRoute();
       class="col-span-1 md:col-span-4 p-2 md:p-4 lg:p-8 xl:p-16 md:flex md:items-center"
     >
       <div class="w-full">
-        <h2
-          v-if="route.name === 'auth-login' || route.name === 'auth-register'"
-          class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
-        >
-          Sign {{ route.name === 'auth-login' ? 'in' : 'up' }} to your account
-        </h2>
-        <h2
-          v-else-if="route.name === 'auth-reset-password-resetToken'"
-          class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
-        >
-          Reset password
-        </h2>
-        <h2
-          v-else
-          class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
-        >
-          Forgot password
-        </h2>
+        <div class="flex">
+          <button @click="router.go(-1)">
+            <Icon class="w-6 h-6" name="material-symbols:arrow-back-rounded" />
+          </button>
+          <h2
+            v-if="route.name === 'auth-login' || route.name === 'auth-register'"
+            class="ms-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
+          >
+            Sign {{ route.name === 'auth-login' ? 'in' : 'up' }} to your account
+          </h2>
+          <h2
+            v-else-if="route.name === 'auth-reset-password-resetToken'"
+            class="ms-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
+          >
+            Reset password
+          </h2>
+          <h2
+            v-else
+            class="ms-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
+          >
+            Forgot password
+          </h2>
+        </div>
         <slot />
       </div>
     </div>
